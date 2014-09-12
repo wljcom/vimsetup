@@ -92,6 +92,8 @@ let g:template_path='~/.vim/template/'
 
 "生成tag文件,喜欢的时候就按一下F8
 map <F8> :!ctags -R --fields=+lS <CR> 
+"ctags -R --c-kinds=+px --fields=+iaS --extra=+q
+"ctags -R --c++-kinds=+px --fields=+iaS --extra=+q
 
 
 
