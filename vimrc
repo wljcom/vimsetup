@@ -39,6 +39,10 @@ set hidden                   " 允许在有未保存的修改时切换缓冲区
 "set list                     " 显示Tab符，使用一高亮竖线代替
 "set listchars=tab:\|\ ,
 
+" vim-pathogen
+" execute pathogen#infect()
+call pathogen#infect()
+
 set autoread                 " 当文件改变时自动读取
 syntax enable                " 打开语法高亮
 syntax on                    " 开启文件类型侦测
@@ -78,15 +82,13 @@ set expandtab   "用空格代替制表符
 " :LoadTemplate       根据文件后缀自动加载模板
 let g:template_path='~/.vim/template/'
 
-" nt                  打开NERDTree [非插入模式]
-" map nt :NERDTree<CR>
 
 "生成tag文件,喜欢的时候就按一下F8
 map <F12> :!ctags -R --fields=+lS <CR> 
 "ctags -R --c-kinds=+px --fields=+iaS --extra=+q
 "ctags -R --c++-kinds=+px --fields=+iaS --extra=+q
 
-
+"====================================================================================================
 " :Tlist              调用TagList
 let Tlist_Show_One_File=1                    " 只显示当前文件的tags
 let Tlist_Exit_OnlyWindow=1                  " 如果Taglist窗口是最后一个窗口则退出Vim
@@ -99,12 +101,15 @@ let Tlist_File_Fold_Auto_Close=1             " 自动折叠
 let Tlist_WinWidth = 36
  
 "设置taglist打开关闭的快捷键F8
-noremap <F11> :TlistToggle<CR>
+noremap <F10> :TlistToggle<CR>
 
 " tl                  打开Taglist [非插入模式]
 "map tl :Tlist<CR><c-l> 
+"====================================================================================================
 
-
+" nt                  打开NERDTree [非插入模式]
+" map nt :NERDTree<CR>
+noremap <F9> :NERDTree<CR>
 
 
 
