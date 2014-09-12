@@ -75,28 +75,34 @@ set helplang=cn
 set expandtab   "用空格代替制表符
 "set noexpandtab  " 不要用空格代替制表符
 
-" :Tlist              调用TagList
-"let Tlist_Show_One_File=1                    " 只显示当前文件的tags
-"let Tlist_Exit_OnlyWindow=1                  " 如果Taglist窗口是最后一个窗口则退出Vim
-"let Tlist_Use_Right_Window=1                 " 在右侧窗口中显示
-"let Tlist_File_Fold_Auto_Close=1             " 自动折叠
-
 " :LoadTemplate       根据文件后缀自动加载模板
 let g:template_path='~/.vim/template/'
 
 " nt                  打开NERDTree [非插入模式]
 " map nt :NERDTree<CR>
 
-" tl                  打开Taglist [非插入模式]
-" map tl :Tlist<CR><c-l>
-
 "生成tag文件,喜欢的时候就按一下F8
-map <F8> :!ctags -R --fields=+lS <CR> 
+map <F12> :!ctags -R --fields=+lS <CR> 
 "ctags -R --c-kinds=+px --fields=+iaS --extra=+q
 "ctags -R --c++-kinds=+px --fields=+iaS --extra=+q
 
 
+" :Tlist              调用TagList
+let Tlist_Show_One_File=1                    " 只显示当前文件的tags
+let Tlist_Exit_OnlyWindow=1                  " 如果Taglist窗口是最后一个窗口则退出Vim
+let Tlist_Use_Right_Window=1                 " 在右侧窗口中显示
+let Tlist_File_Fold_Auto_Close=1             " 自动折叠
+"let Tlist_Auto_Open = 1                      " 启动vim后自动打开taglist窗口
 
+"设置taglist窗口大小
+"let Tlist_WinHeight = 100
+let Tlist_WinWidth = 36
+ 
+"设置taglist打开关闭的快捷键F8
+noremap <F11> :TlistToggle<CR>
+
+" tl                  打开Taglist [非插入模式]
+"map tl :Tlist<CR><c-l> 
 
 
 
