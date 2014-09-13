@@ -177,8 +177,6 @@ if has("cscope")
 	" d: Find functions called by this function
     nmap <C-\>d :call CscopeFind('d', expand('<cword>'))<CR><CR>
 	nmap <C-\>l :call ToggleLocationList()<CR>
-	nmap <C-n>  :cnext<CR>
-    nmap <C-p>  :cprev<CR>
 
 endif
 
