@@ -7,7 +7,7 @@
 
 au BufNewFile,BufRead *.html setf htmldjango
 
-colorscheme elflord          " 着色模式  torte  
+colorscheme elflord          " 着色模式  torte desert elflord
 set guifont=Monaco:h10       " 字体 && 字号
 set tabstop=4                " 设置tab键的宽度
 set shiftwidth=4             " 换行时行间交错使用4个空格
@@ -24,6 +24,8 @@ set showmatch                " 显示括号配对情况
 "set mouse=a                  " 启用鼠标
 "set selection=exclusive
 "set selectmode=mouse,key
+
+set history=100              " 历史命令保存行数
 
 set ruler                    " 右下角显示光标位置的状态行
 
@@ -50,7 +52,8 @@ filetype indent on           " 针对不同的文件类型采用不同的缩进�
 filetype plugin on           " 针对不同的文件类型加载对应的插件
 filetype plugin indent on    " 启用自动补全
 
-set writebackup              " 设置无备份文件
+"set writebackup              " 设置无备份文件
+set nowb
 set nobackup
 set noswapfile
 
@@ -64,16 +67,21 @@ set nowrap                   " 设置不自动换行 set wrap
 set foldmethod=syntax        " 选择代码折叠类型
 set foldlevel=100            " 禁止自动折叠
 
-"set laststatus=2             " 开启状态栏信息
-"set cmdheight=2              " 命令行的高度，默认为1，这里设为2
+set laststatus=2             " 开启状态栏信息
+set cmdheight=2              " 命令行的高度，默认为1，这里设为2
+"set showcmd                  " 状态栏显示当前执行的命令
+
+"set paste                    " 粘贴时保持格式
 
 " 每行超过80个的字符用下划线标示
 "au BufRead,BufNewFile *.s,*.asm,*.h,*.c,*.cpp,*.cc,*.java,*.cs,*.erl,*.hs,*.sh,*.lua,*.pl,*.pm,*.php,*.py,*.rb,*.erb,*.vim,*.js,*.css,*.xml,*.html,*.xhtml 2match Underlined /.\%81v/
 
-" 设置编码
+" 设定默认解码
 set fenc=utf-8
+set fencs=utf-8,usc-bom,euc-jp,gb18030,gbk,gb2312,cp936
 set encoding=utf-8
-set fileencodings=utf-8,gbk,cp936,latin-1
+set fileencoding=utf-8
+set fileencodings=utf-8,gbk,cp936,latin-1,ucs-bom
 set helplang=cn
 "////////////////////////////////////////////////////
 set expandtab   "用空格代替制表符
@@ -83,11 +91,22 @@ set expandtab   "用空格代替制表符
 let g:template_path='~/.vim/template/'
 
 
+"====================================================================================================
+"  < ctags 工具配置 >
+"====================================================================================================
+" 对浏览代码非常的方便,可以在函数,变量之间跳转等
+set tags=./tags;                            "向上级目录递归查找tags文件（好像只有在Windows下才有用）
 "生成tag文件,喜欢的时候就按一下F8
 map <F12> :!ctags -R --fields=+lS <CR> 
 "ctags -R --c-kinds=+px --fields=+iaS --extra=+q
 "ctags -R --c++-kinds=+px --fields=+iaS --extra=+q
+"ctags -R --languages=c,c++
+"ctags -R --languages=c,c++ --langmap=c:+.h
+"要加入系统函数或全局变量的tag标签
+"ctags -I __THROW –file-scope=yes –langmap=c:+.h –languages=c,c++ –links=yes –c-kinds=+p --fields=+S -R -f 
 
+"====================================================================================================
+"  < TagList 工具配置 >
 "====================================================================================================
 " :Tlist              调用TagList
 let Tlist_Show_One_File=1                    " 只显示当前文件的tags
@@ -105,13 +124,50 @@ noremap <F10> :TlistToggle<CR>
 
 " tl                  打开Taglist [非插入模式]
 "map tl :Tlist<CR><c-l> 
-"====================================================================================================
 
+"====================================================================================================
+"  < 打开NERDTree 工具配置 >
+"====================================================================================================
 " nt                  打开NERDTree [非插入模式]
 " map nt :NERDTree<CR>
 noremap <F9> :NERDTree<CR>
 
-
-
-
+"====================================================================================================
+"  < cscope 工具配置 >
+"====================================================================================================
+" 用Cscope自己的话说 - "你可以把它当做是超过频的ctags"
+if has("cscope")
+    " 关闭autocscope插件的快捷健映射.防止和我们定义的快捷键冲突
+    "let g:autocscope_menus=0  
+    "设定可以使用 quickfix 窗口来查看 cscope 结果
+    set cscopequickfix=s-,c-,d-,i-,t-,e-
+    "使支持用 Ctrl+]  和 Ctrl+t 快捷键在代码间跳转
+    set cscopetag
+	"cscope的查找结果在格式上最多显示6层目录.
+	set cspc=6 
+    "如果你想反向搜索顺序设置为1
+    set csto=0
+	
+	set cst
+	
+    "在当前目录中添加任何数据库
+    if filereadable("cs.out")
+        cs add cs.out
+    "否则添加数据库环境中所指出的
+    elseif $CSCOPE_DB != ""
+        cs add $CSCOPE_DB
+    endif
+    set cscopeverbose
+    "快捷键设置
+    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+    nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+	nmap <C-n>  :cnext<CR>
+    nmap <C-p>  :cprev<CR>
+endif
 
