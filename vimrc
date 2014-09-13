@@ -140,7 +140,8 @@ if has("cscope")
     " 关闭autocscope插件的快捷健映射.防止和我们定义的快捷键冲突
     "let g:autocscope_menus=0  
     "设定可以使用 quickfix 窗口来查看 cscope 结果
-    set cscopequickfix=s-,c-,d-,i-,t-,e-
+    "set cscopequickfix=s-,c-,d-,i-,t-,e-
+	set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-
     "使支持用 Ctrl+]  和 Ctrl+t 快捷键在代码间跳转
     set cscopetag
 	"cscope的查找结果在格式上最多显示6层目录.
@@ -159,15 +160,25 @@ if has("cscope")
     endif
     set cscopeverbose
     "快捷键设置
-    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-    nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+	" s: Find this C symbol
+    nmap <C-\>s :call CscopeFind('s', expand('<cword>'))<CR><CR>
+	" g: Find this definition
+    nmap <C-\>g :call CscopeFind('g', expand('<cword>'))<CR><CR>
+	" c: Find functions calling this function
+    nmap <C-\>c :call CscopeFind('c', expand('<cword>'))<CR><CR>
+	" t: Find this text string
+    nmap <C-\>t :call CscopeFind('t', expand('<cword>'))<CR><CR>
+	" e: Find this egrep pattern
+    nmap <C-\>e :call CscopeFind('e', expand('<cword>'))<CR><CR>
+	" f: Find this file
+    nmap <C-\>f :call CscopeFind('f', expand('<cword>'))<CR><CR>
+	" i: Find files #including this file
+    nmap <C-\>i :call CscopeFind('i', expand('<cword>'))<CR><CR>
+	" d: Find functions called by this function
+    nmap <C-\>d :call CscopeFind('d', expand('<cword>'))<CR><CR>
+	nmap <C-\>l :call ToggleLocationList()<CR>
 	nmap <C-n>  :cnext<CR>
     nmap <C-p>  :cprev<CR>
+
 endif
 
